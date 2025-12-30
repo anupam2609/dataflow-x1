@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Docker/Airflow
+airflow/
+logs/
+.DS_Store
+
+# Postgres Data (if you had local mounts)
+postgres_data/
+
+# Environment
+.env

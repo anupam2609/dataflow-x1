@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  airflow-init:
+    build: .
+    user: "1001:0"
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW_HOME=/home/spark/airflow
+      - USER=spark
+      - LOGNAME=spark
+      - AIRFLOW__LOGGING__LOGGING_CONFIG_CLASS=airflow.config_templates.airflow_local_settings.DEFAULT_LOGGING_CONFIG
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    command: >
+      bash -c "airflow db migrate &&
+      airflow users create
+      --username admin
+      --firstname First
+      --lastname Last
+      --role Admin
+      --email admin@example.com
+      --password admin"
+
+  airflow-webserver:
+    build: .
+    user: "1001:0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      airflow-init:
+        condition: service_started
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW_HOME=/home/spark/airflow
+      - USER=spark
+      - LOGNAME=spark
+      - AIRFLOW__LOGGING__LOGGING_CONFIG_CLASS=airflow.config_templates.airflow_local_settings.DEFAULT_LOGGING_CONFIG
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/home/spark/airflow/dags
+      - ./src:/opt/spark/work-dir/src
+    # UPDATED COMMAND BELOW:
+    command: >
+      bash -c "sleep 5 && 
+      rm -f /home/spark/airflow/airflow-webserver.pid && 
+      airflow db migrate && 
+      airflow webserver"
+
+  ui-dashboard:
+    build: .
+    user: "1001:0"
+    command: bash -c "streamlit run ui/app.py --server.port=8501 --server.address=0.0.0.0"
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./ui:/opt/spark/work-dir/ui
+      - ./src:/opt/spark/work-dir/src
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  airflow-logs:
