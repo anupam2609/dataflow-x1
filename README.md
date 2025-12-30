@@ -55,7 +55,7 @@ docker compose up -d
 * **Stop Services:** `docker compose down` (keeps data safe).
 * **Hard Reset:** `docker compose down -v` (removes all database data/users).
 * **View Logs:** `docker compose logs -f airflow-webserver`
-* **Postgres:** `the postgres server is mapped to 5433 localhost port from container port 5432` (this helps connect system servers connect to airflow db running on docker container. Please use credentials provided in docker-compose.yml)
+* **Postgres:** `the postgres server is mapped to 5433 localhost port from container port 5432` (this helps connect system servers to airflow db running on docker container. Please use credentials provided in docker-compose.yml)
 
 ```
 
