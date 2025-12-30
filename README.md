@@ -32,10 +32,11 @@ docker compose up -d
 ## 🛠️ Service Access
 
 | Service | URL | Credentials |
-| --- | --- | --- |
+| --- | -- | --- |
 | **Airflow Webserver** | [http://localhost:8080](https://www.google.com/search?q=http://localhost:8080) | `admin` / `admin` |
 | **Streamlit Dashboard** | [http://localhost:8501](https://www.google.com/search?q=http://localhost:8501) | N/A |
 | **Postgres DB** | `localhost:5432` | `airflow` / `airflow` |
+
 
 ---
 
@@ -54,6 +55,7 @@ docker compose up -d
 * **Stop Services:** `docker compose down` (keeps data safe).
 * **Hard Reset:** `docker compose down -v` (removes all database data/users).
 * **View Logs:** `docker compose logs -f airflow-webserver`
+* **Postgres:** `the postgres server is mapped to 5433 localhost port from container port 5432` (this helps connect system servers connect to airflow db running on docker container. Please use credentials provided in docker-compose.yml)
 
 ```
 
