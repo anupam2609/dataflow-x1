@@ -48,12 +48,22 @@ services:
       - LOGNAME=spark
       - AIRFLOW__LOGGING__LOGGING_CONFIG_CLASS=airflow.config_templates.airflow_local_settings.DEFAULT_LOGGING_CONFIG
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      # Snowflake Credentials (mapped to shell environment or .env file)
+      - SNOWFLAKE_USER=${SNOWFLAKE_USER}
+      - SNOWFLAKE_PASSWORD=${SNOWFLAKE_PASSWORD}
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
+      - SNOWFLAKE_DATABASE=${SNOWFLAKE_DATABASE}
+      - SNOWFLAKE_SCHEMA=${SNOWFLAKE_SCHEMA}
+      - SNOWFLAKE_WAREHOUSE=${SNOWFLAKE_WAREHOUSE}
+      - SNOWFLAKE_ROLE=${SNOWFLAKE_ROLE}
+      # Path for the configuration-driven engine
+      - ETL_CONFIG_PATH=/opt/spark/work-dir/config/etl_settings.yaml
     ports:
       - "8080:8080"
     volumes:
       - ./dags:/home/spark/airflow/dags
       - ./src:/opt/spark/work-dir/src
-    # UPDATED COMMAND BELOW:
+      - ./config:/opt/spark/work-dir/config
     command: >
       bash -c "sleep 5 && 
       rm -f /home/spark/airflow/airflow-webserver.pid && 
@@ -63,12 +73,17 @@ services:
   ui-dashboard:
     build: .
     user: "1001:0"
+    environment:
+      - SNOWFLAKE_USER=${SNOWFLAKE_USER}
+      - SNOWFLAKE_PASSWORD=${SNOWFLAKE_PASSWORD}
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
     command: bash -c "streamlit run ui/app.py --server.port=8501 --server.address=0.0.0.0"
     ports:
       - "8501:8501"
     volumes:
       - ./ui:/opt/spark/work-dir/ui
       - ./src:/opt/spark/work-dir/src
+      - ./config:/opt/spark/work-dir/config
     depends_on:
       postgres:
         condition: service_healthy

@@ -6,3 +6,10 @@ pandas
 apache-airflow-providers-postgres
 apache-airflow-providers-apache-spark
 psycopg2-binary
+sqlalchemy
+psycopg2-binary
+pandas
+snowflake-connector-python[pandas]  # High-performance data transfer
+snowflake-sqlalchemy                 # For engine-based SQL execution
+pandas
+pyyaml
