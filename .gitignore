@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 venv/
 .venv/
+.idea/
 
 # Docker/Airflow
 airflow/
