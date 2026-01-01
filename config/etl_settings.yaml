@@ -1,0 +1,13 @@
+execution_mode: "snowflake" # Options: snowflake, spark, python_local
+
+snowflake_pipeline:
+  read: true
+  transform: true
+  write: true
+  source_table: "RAW_SALES"
+  target_table: "PROCESSED_SALES"
+  transformation_query: |
+    CREATE OR REPLACE TABLE {target_table} AS
+    SELECT *, CURRENT_TIMESTAMP() as processed_at 
+    FROM {source_table}
+    WHERE amount > 0
