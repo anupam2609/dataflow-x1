@@ -1,31 +1,36 @@
-```markdown
-# Dataflow-X1: Spark + Airflow + Streamlit Platform
 
+# Dataflow-X1: Spark + Airflow + Streamlit Platform
 A containerized data engineering platform designed to run seamlessly on both M1 Mac (ARM64) and Windows/Linux (x86_64). This project orchestrates Apache Spark jobs using Airflow and visualizes data results via Streamlit.
 
 ## Quick Start (Deployment)
-
 Follow these steps to deploy the full stack on a new machine:
 
-```zsh
 # 1. Clone the repository
 git clone [https://github.com/YOUR_USERNAME/dataflow-x1.git](https://github.com/YOUR_USERNAME/dataflow-x1.git)
 cd dataflow-x1
 
+
 # 2. Build the images (Detects local architecture: ARM vs AMD)
+```bash
 docker compose build --no-cache
+```
 
 # 3. Start the Database first
+```bash
 docker compose up -d postgres
+```
 
 # 4. Initialize Airflow Database and Admin User
 # Note: It may exit with Code 1 on M1 Macs; this is expected.
+```bash
 docker compose up airflow-init
+```
 
 # 5. Launch all services
+```bash
 docker compose up -d
-
 ```
+
 
 ---
 
