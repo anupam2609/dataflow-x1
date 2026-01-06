@@ -71,9 +71,4 @@ When you first run these commands on your Windows server:
 1. **Line Endings:** If `airflow-init` fails with a "command not found" error, ensure your files are saved with **LF** line endings (VS Code status bar).
 2. **Terminal:** Use **PowerShell** or **Git Bash** for the best experience with these commands on Windows.
 
-
-
-### What would you like to build next?
-Now that the project is documented and ready for Git, would you like me to help you create your **first Spark processing script** in the `/src` folder to verify the data flow?
-
 ```
