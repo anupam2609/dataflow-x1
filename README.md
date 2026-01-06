@@ -3,7 +3,7 @@
 
 A containerized data engineering platform designed to run seamlessly on both M1 Mac (ARM64) and Windows/Linux (x86_64). This project orchestrates Apache Spark jobs using Airflow and visualizes data results via Streamlit.
 
-## 🚀 Quick Start (Deployment)
+## Quick Start (Deployment)
 
 Follow these steps to deploy the full stack on a new machine:
 
@@ -29,7 +29,7 @@ docker compose up -d
 
 ---
 
-## 🛠️ Service Access
+## Service Access
 
 | Service | URL | Credentials |
 | --- | -- | --- |
@@ -40,7 +40,7 @@ docker compose up -d
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 * `/dags`: Place your Airflow DAG files here (syncs to `/home/spark/airflow/dags`).
 * `/src`: Core Python logic and Spark processing scripts.
@@ -50,7 +50,7 @@ docker compose up -d
 
 ---
 
-## 💡 Key Maintenance Commands
+## Key Maintenance Commands
 
 * **Stop Services:** `docker compose down` (keeps data safe).
 * **Hard Reset:** `docker compose down -v` (removes all database data/users).
