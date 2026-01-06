@@ -9,7 +9,6 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# 2. Fix the existing 'spark' user
 RUN mkdir -p /home/spark && \
     usermod -d /home/spark -s /bin/bash spark && \
     chown -R spark:spark /home/spark
@@ -20,8 +19,7 @@ RUN python3 -m venv /opt/airflow_venv && \
 
 WORKDIR /opt/spark/work-dir
 
-# 4. Set Airflow Home to the INTERNAL home directory (Safe from Mac permission issues)
-# 4. Set Airflow Home and make it WORLD WRITABLE for the init phase
+# 4. Set Airflow Home to the INTERNAL home directory
 ENV AIRFLOW_HOME=/home/spark/airflow
 RUN mkdir -p $AIRFLOW_HOME/logs $AIRFLOW_HOME/dags $AIRFLOW_HOME/plugins && \
     chown -R spark:spark /home/spark && \
